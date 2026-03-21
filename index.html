@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UI Aesthetic Atlas -- 20 Modern Design Patterns</title>
+  <meta name="description" content="A definitive visual gallery of 20 modern UI design patterns. Animated previews, vibe analysis, and effort ratings for founders, developers, and designers." />
+  <meta property="og:title" content="UI Aesthetic Atlas" />
+  <meta property="og:description" content="20 modern UI aesthetics. Animated. Documented. Decided." />
+  <meta property="og:image" content="https://res.cloudinary.com/du0ea6cth/image/upload/v1774081062/ui-aesthetic-atlas/01-neubrutalism.gif" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="UI Aesthetic Atlas -- 20 Modern Design Patterns" />
+  <meta name="twitter:description" content="A definitive visual gallery of 20 modern UI design aesthetics. Animated previews, vibe analysis, and effort ratings." />
+  <meta name="twitter:image" content="https://res.cloudinary.com/du0ea6cth/image/upload/v1774081062/ui-aesthetic-atlas/01-neubrutalism.gif" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#10022;</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --border: #1e1e1e;
+      --accent: #ff3b00;
+      --accent-dim: rgba(255, 59, 0, 0.12);
+      --text: #f0ece4;
+      --text-muted: #888;
+      --text-dim: #444;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-body: 'Instrument Serif', serif;
+      /* Easing tokens */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+      --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #050505;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: default;
+      opacity: 0;
+    }
+    body.loaded { opacity: 1; transition: opacity 0.01s; }
+    body.custom-cursor { cursor: none; }
+
+    .site-wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      background: var(--bg);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    /* -- LOADER ----------------------------------------- */
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s;
+    }
+    .loader.done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-bar {
+      width: 120px;
+      height: 2px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+      border-radius: 1px;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform-origin: left;
+      animation: loadProgress 1.5s var(--ease-in-out-quint) forwards;
+    }
+    @keyframes loadProgress {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+    }
+
+    /* -- CUSTOM CURSOR ---------------------------------- */
+    .cursor {
+      position: fixed;
+      width: 16px; height: 16px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s var(--ease-out-quart), height 0.2s var(--ease-out-quart), border-color 0.2s;
+      mix-blend-mode: difference;
+      display: none;
+    }
+    .cursor.active { width: 40px; height: 40px; }
+    @media (hover: hover) and (pointer: fine) {
+      .cursor { display: block; }
+    }
+
+    /* -- GRAIN OVERLAY ---------------------------------- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      width: 200%; height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 1000;
+      animation: grain 8s steps(10) infinite;
+    }
+    @keyframes grain {
+      0%,100% { transform: translate(0,0); }
+      10% { transform: translate(-2%,-3%); }
+      20% { transform: translate(3%,1%); }
+      30% { transform: translate(-1%,4%); }
+      40% { transform: translate(4%,-2%); }
+      50% { transform: translate(-3%,2%); }
+      60% { transform: translate(2%,-4%); }
+      70% { transform: translate(-4%,3%); }
+      80% { transform: translate(1%,-1%); }
+      90% { transform: translate(3%,4%); }
+    }
+
+    /* -- SKIP NAV --------------------------------------- */
+    .skip-nav {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      z-index: 200;
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-decoration: none;
+      border-radius: 0 0 4px 4px;
+    }
+    .skip-nav:focus { top: 0; }
+
+    /* -- HEADER ----------------------------------------- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      transform: translateY(-100%);
+      z-index: 100;
+      width: min(100%, 1440px);
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+    }
+    body.loaded header {
+      animation: slideDown 0.8s var(--ease-out-expo) 0.1s both;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s var(--ease-out-quart);
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 100%; height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s var(--ease-out-quart);
+    }
+    nav a:hover { color: var(--accent); }
+    nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    .nav-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+
+    /* -- HERO ------------------------------------------- */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      padding-top: 64px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-left {
+      padding: 0 48px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      opacity: 0;
+    }
+    body.loaded .hero-label {
+      animation: fadeSlideUp 0.6s var(--ease-out-expo) 0.3s both;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(64px, 9vw, 150px);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 40px;
+      perspective: 800px;
+    }
+    .hero-title em {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* Character reveal animation */
+    .char-reveal {
+      display: inline-block;
+      opacity: 0;
+    }
+    body.loaded .char-reveal {
+      animation: charIn 0.6s var(--ease-out-expo) both;
+    }
+    @keyframes charIn {
+      from { opacity: 0; transform: translateY(40px) rotateX(-40deg); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0) rotateX(0); filter: blur(0); }
+    }
+
+    .hero-sub {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .hero-desc {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 460px;
+      line-height: 1.7;
+      opacity: 0;
+    }
+    body.loaded .hero-desc {
+      animation: fadeSlideUp 0.8s var(--ease-out-expo) 1.2s both;
+    }
+
+    .hero-stats { display: flex; gap: 40px; }
+    .stat { text-align: left; opacity: 0; }
+    body.loaded .stat {
+      animation: fadeSlideUp 0.6s var(--ease-out-expo) both;
+    }
+    body.loaded .stat:nth-child(1) { animation-delay: 1.4s; }
+    body.loaded .stat:nth-child(2) { animation-delay: 1.55s; }
+    body.loaded .stat:nth-child(3) { animation-delay: 1.7s; }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 44px;
+      line-height: 1;
+      color: var(--text);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    @keyframes fadeSlideUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes accentFlash {
+      0% { color: var(--accent); transform: scale(1.2); }
+      100% { color: var(--text); transform: scale(1); }
+    }
+
+    .hero-right {
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      min-height: 0;
+    }
+
+    .hero-grid-item {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      min-height: 220px;
+      opacity: 0;
+    }
+    .hero-grid-item:nth-child(odd) { border-right: 1px solid var(--border); }
+
+    body.loaded .hero-grid-item {
+      animation: scaleReveal 0.8s var(--ease-out-expo) both;
+    }
+    body.loaded .hero-grid-item:nth-child(1) { animation-delay: 0.6s; }
+    body.loaded .hero-grid-item:nth-child(2) { animation-delay: 0.75s; }
+    body.loaded .hero-grid-item:nth-child(3) { animation-delay: 0.9s; }
+    body.loaded .hero-grid-item:nth-child(4) { animation-delay: 1.05s; }
+
+    @keyframes scaleReveal {
+      from { transform: scale(1.1); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .hero-grid-item video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s var(--ease-out-quart);
+    }
+    .hero-grid-item:hover video { transform: scale(1.05); }
+
+    .hero-grid-label {
+      position: absolute;
+      bottom: 10px; left: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,236,228,0.85);
+      background: rgba(8,8,8,0.65);
+      padding: 3px 8px;
+      border-radius: 2px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-grid-hint {
+      padding: 14px 20px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .hero-scroll::after {
+      content: '';
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--text-dim), transparent);
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* -- FILTER BAR ------------------------------------- */
+    .filter-bar {
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      max-width: 1440px;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      padding: 18px 24px;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.3s var(--ease-out-quart),
+                  border-color 0.3s var(--ease-out-quart),
+                  background 0.3s var(--ease-out-quart);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+    .filter-btn:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+    .filter-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(255, 59, 0, 0.05);
+    }
+
+    /* Separator before category filters */
+    .filter-btn[data-filter="saas"] {
+      margin-left: 8px;
+    }
+    .filter-btn[data-filter="saas"]::before {
+      content: '';
+      position: absolute;
+      left: -4px; top: 30%;
+      height: 40%; width: 1px;
+      background: var(--border);
+    }
+
+    .filter-pips {
+      display: inline-flex;
+      gap: 3px;
+      align-items: center;
+      margin-right: 8px;
+    }
+    .filter-pip {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .filter-pip.on { background: var(--accent); }
+    .filter-btn:hover .filter-pip.on { background: var(--text); }
+    .filter-btn.active .filter-pip.on {
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    /* -- GALLERY ---------------------------------------- */
+    .gallery { padding: 0; }
+
+    .pattern-entry {
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+      position: relative;
+    }
+    .pattern-entry.hidden { display: none; }
+    .pattern-entry:nth-child(even) { direction: rtl; }
+    .pattern-entry:nth-child(even) > * { direction: ltr; }
+
+    /* Gradient border hover */
+    @property --gradient-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    .pattern-entry::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s var(--ease-out-quart);
+      border: 2px solid transparent;
+      background: conic-gradient(from var(--gradient-angle), var(--accent), #ff8800, var(--accent), #ff3b00, var(--accent)) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+    }
+    .pattern-entry:hover::after {
+      opacity: 1;
+      animation: gradientRotate 3s linear infinite;
+    }
+    @keyframes gradientRotate {
+      to { --gradient-angle: 360deg; }
+    }
+
+    .pattern-preview {
+      position: relative;
+      overflow: hidden;
+      background: #050505;
+      border-right: 1px solid var(--border);
+    }
+    .pattern-entry:nth-child(even) .pattern-preview {
+      border-right: none;
+      border-left: 1px solid var(--border);
+    }
+
+    .pattern-preview video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+      will-change: transform;
+    }
+
+    /* Staggered child reveals */
+    .stagger-child {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+    }
+    .pattern-entry.in-view .stagger-child {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pattern-preview.stagger-child {
+      transform: none;
+      opacity: 0;
+      transition: opacity 0.9s var(--ease-out-expo);
+    }
+    .pattern-entry.in-view .pattern-preview.stagger-child {
+      opacity: 1;
+    }
+
+    .pattern-info {
+      padding: 72px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pattern-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+    .pattern-number::before {
+      content: '//';
+      color: var(--accent);
+      margin-right: 6px;
+    }
+
+    .pattern-name {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .pattern-tagline {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      line-height: 1.65;
+      max-width: 440px;
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+    }
+
+    .pattern-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+    }
+
+    .meta-icon {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--accent);
+    }
+
+    .meta-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      flex-shrink: 0;
+      min-width: 64px;
+      padding-top: 2px;
+    }
+
+    .meta-value {
+      font-family: var(--font-body);
+      color: #c0bbb3;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .pattern-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 2px;
+      cursor: default;
+      transition: border-color 0.3s var(--ease-out-quart),
+                  color 0.3s var(--ease-out-quart),
+                  background 0.3s var(--ease-out-quart),
+                  transform 0.2s var(--ease-out-quart);
+    }
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+      transform: translateY(-1px);
+    }
+
+    /* -- SECTION DIVIDER -------------------------------- */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 80px 48px;
+    }
+    .divider-line {
+      height: 1px;
+      flex: 1;
+      max-width: 200px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      transform: scaleX(0);
+      transition: transform 1.2s var(--ease-out-expo);
+    }
+    .section-divider.in-view .divider-line { transform: scaleX(1); }
+    .divider-symbol {
+      font-size: 14px;
+      color: var(--accent);
+      opacity: 0;
+      transform: rotate(-90deg) scale(0);
+      transition: opacity 0.6s var(--ease-out-expo) 0.4s,
+                  transform 0.6s var(--ease-elastic) 0.4s;
+    }
+    .section-divider.in-view .divider-symbol {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+
+    /* -- MATRIX SECTION --------------------------------- */
+    .matrix-section {
+      padding: 120px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 80px);
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+
+    .section-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .matrix-table { width: 100%; border-collapse: collapse; }
+
+    .matrix-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-align: left;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .matrix-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #111;
+      font-size: 14px;
+      vertical-align: middle;
+      transition: background 0.3s var(--ease-out-quart);
+    }
+
+    .matrix-table tbody tr {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s var(--ease-out-expo),
+                  transform 0.5s var(--ease-out-expo);
+    }
+    .matrix-table.in-view tbody tr {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .matrix-table tr:hover td { background: rgba(255, 59, 0, 0.03); }
+    .matrix-table tr:hover .matrix-name { color: var(--accent); }
+    .matrix-table tr:hover .effort-dot.on { box-shadow: 0 0 8px var(--accent); }
+
+    .matrix-num { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+    .matrix-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      transition: color 0.3s var(--ease-out-quart);
+    }
+    .matrix-vibe { font-family: var(--font-body); font-style: italic; color: var(--text-muted); font-size: 13px; }
+    .matrix-for { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+    .effort-bar { display: flex; gap: 4px; }
+    .effort-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: box-shadow 0.3s var(--ease-out-quart);
+    }
+    .effort-dot.on { background: var(--accent); }
+
+    /* -- FOOTER ----------------------------------------- */
+    footer {
+      padding: 80px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .footer-left .footer-title {
+      font-family: var(--font-display);
+      font-size: 48px;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer-left .footer-sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s var(--ease-out-quart), transform 0.2s var(--ease-out-quart);
+    }
+    .footer-links a:hover { color: var(--accent); transform: translateX(4px); }
+
+    .footer-credit {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 24px;
+      letter-spacing: 0.1em;
+    }
+
+    /* -- REVEAL (for non-staggered elements) ------------ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* -- BACK TO TOP ------------------------------------ */
+    .back-to-top {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      z-index: 99;
+      width: 48px; height: 48px;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px) scale(0.8);
+      transition: opacity 0.4s var(--ease-out-expo),
+                  transform 0.4s var(--ease-out-expo),
+                  background 0.3s var(--ease-out-quart),
+                  color 0.3s var(--ease-out-quart),
+                  box-shadow 0.3s var(--ease-out-quart);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 24px rgba(255, 59, 0, 0.4);
+      transform: translateY(-2px) scale(1.05);
+    }
+    .back-to-top:active { transform: translateY(0) scale(0.95); }
+
+    .back-to-top.visible::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      opacity: 0;
+      animation: pingRing 2s var(--ease-out-expo) infinite;
+    }
+    @keyframes pingRing {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    /* -- RESPONSIVE ------------------------------------- */
+    @media (min-width: 1200px) {
+      .pattern-entry { min-height: 700px; }
+      .pattern-info { padding: 80px 72px; }
+    }
+
+    @media (max-width: 900px) {
+      header { padding: 0 24px; }
+      nav { gap: 20px; }
+      .hero { grid-template-columns: 1fr; padding: 64px 0 0; }
+      .hero-left { padding: 0 24px 48px; }
+      .hero-right { border-left: none; border-top: 1px solid var(--border); }
+      .hero-grid { grid-template-rows: auto; }
+      .hero-grid-item { aspect-ratio: 16/9; }
+      .hero-stats { gap: 32px; }
+      .filter-bar { padding: 0 24px; }
+      .pattern-entry {
+        grid-template-columns: 1fr;
+        direction: ltr !important;
+        min-height: auto;
+      }
+      .pattern-entry:nth-child(even) .pattern-preview {
+        border-left: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .pattern-preview {
+        min-height: 280px;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border);
+      }
+      .pattern-info { padding: 40px 24px; }
+      .matrix-section { padding: 80px 24px; }
+      .matrix-table th:nth-child(3),
+      .matrix-table td:nth-child(3) { display: none; }
+      footer {
+        padding: 60px 24px;
+        flex-direction: column;
+        gap: 40px;
+        align-items: flex-start;
+      }
+      .footer-links { align-items: flex-start; }
+      .section-divider { padding: 48px 24px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: clamp(48px, 14vw, 80px); }
+      .hero-stats { flex-wrap: wrap; gap: 24px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-grid-item:nth-child(odd) { border-right: none; }
+      .pattern-info { padding: 32px 20px; }
+      .pattern-name { font-size: clamp(32px, 10vw, 48px); }
+      .matrix-section { padding: 60px 16px; overflow-x: auto; }
+    }
+
+    /* -- REDUCED MOTION --------------------------------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      body { opacity: 1 !important; }
+      .loader { display: none !important; }
+      .reveal, .stagger-child, .char-reveal,
+      .hero-label, .hero-desc, .stat, .hero-grid-item,
+      header, .matrix-table tbody tr {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+  <noscript>
+    <style>
+      body { opacity: 1 !important; }
+      .loader { display: none !important; }
+      .reveal, .stagger-child { opacity: 1 !important; transform: none !important; }
+      .hero-label, .hero-desc, .stat, .hero-grid-item, header {
+        opacity: 1 !important; transform: none !important;
+      }
+      .back-to-top { display: none !important; }
+      .matrix-table tbody tr { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <div class="loader" id="loader"><div class="loader-bar"></div></div>
+  <a href="#gallery" class="skip-nav">Skip to gallery</a>
+  <div class="cursor" id="cursor"></div>
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">&#8593;</button>
+
+  <div class="site-wrap">
+
+  <!-- HEADER -->
+  <header>
+    <a href="#" class="logo">UI <span>&#10022;</span> ATLAS</a>
+    <nav>
+      <a href="#gallery">Gallery</a>
+      <a href="#matrix">Matrix</a>
+      <a href="https://github.com/Achal13jain/ui-design-patterns" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+    <span class="nav-count">20 Patterns</span>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-label">&#10022; &nbsp; Visual Inspiration Gallery &nbsp; &middot; &nbsp; 2025&ndash;2026</p>
+      <h1 class="hero-title">UI<br/><em>Aesthetic</em><br/>Atlas</h1>
+      <div class="hero-sub">
+        <p class="hero-desc">A definitive glossary of 20 modern design aesthetics &mdash; for founders who need conviction, developers who need vocabulary, and designers who need a reference.</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num" data-target="20">0</div>
+            <div class="stat-label">Patterns</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" data-target="5" data-suffix="s">0</div>
+            <div class="stat-label">Each loop</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" data-target="0">&mdash;</div>
+            <div class="stat-label">Blank canvas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-grid">
+        <div class="hero-grid-item">
+          <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096114/ui-aesthetic-atlas/01-neubrutalism.mp4" autoplay muted loop playsinline></video>
+          <span class="hero-grid-label">Neubrutalism</span>
+        </div>
+        <div class="hero-grid-item">
+          <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096132/ui-aesthetic-atlas/02-glassmorphism.mp4" autoplay muted loop playsinline></video>
+          <span class="hero-grid-label">Glassmorphism</span>
+        </div>
+        <div class="hero-grid-item">
+          <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096192/ui-aesthetic-atlas/07-cyberpunk-ui.mp4" autoplay muted loop playsinline></video>
+          <span class="hero-grid-label">Cyberpunk UI</span>
+        </div>
+        <div class="hero-grid-item">
+          <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096238/ui-aesthetic-atlas/20-liquid-glass.mp4" autoplay muted loop playsinline></video>
+          <span class="hero-grid-label">Liquid Glass</span>
+        </div>
+      </div>
+      <p class="hero-grid-hint">&darr; &nbsp; 16 more below</p>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" id="gallery">
+    <button class="filter-btn active" data-filter="all" aria-pressed="true">All &mdash; 20</button>
+    <button class="filter-btn" data-filter="low" aria-pressed="false"><span class="filter-pips"><span class="filter-pip on"></span><span class="filter-pip"></span><span class="filter-pip"></span></span>Low</button>
+    <button class="filter-btn" data-filter="medium" aria-pressed="false"><span class="filter-pips"><span class="filter-pip on"></span><span class="filter-pip on"></span><span class="filter-pip"></span></span>Medium</button>
+    <button class="filter-btn" data-filter="high" aria-pressed="false"><span class="filter-pips"><span class="filter-pip on"></span><span class="filter-pip on"></span><span class="filter-pip on"></span></span>High</button>
+    <button class="filter-btn" data-filter="saas" aria-pressed="false">SaaS</button>
+    <button class="filter-btn" data-filter="creative" aria-pressed="false">Creative</button>
+    <button class="filter-btn" data-filter="gaming" aria-pressed="false">Gaming / Web3</button>
+  </div>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery-entries">
+
+    <!-- 01 Neubrutalism -->
+    <article class="pattern-entry" data-effort="low" data-tags="saas indie tools">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096114/ui-aesthetic-atlas/01-neubrutalism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Neubrutalism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">01 / 20</div>
+        <h2 class="pattern-name">Neu-<br/>brutalism</h2>
+        <p class="pattern-tagline">Raw, confrontational, unapologetically bold. The design language of builders who ship.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Indie dev tools &middot; SaaS startups &middot; Developer portfolios</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low &mdash; pure CSS borders, flat colors, zero magic required</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Your brand needs to feel safe, clinical, or premium</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">CSS only</span><span class="tag">Low effort</span><span class="tag">SaaS</span><span class="tag">Bold</span></div>
+      </div>
+    </article>
+
+    <!-- 02 Glassmorphism -->
+    <article class="pattern-entry" data-effort="medium" data-tags="saas fintech premium">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096132/ui-aesthetic-atlas/02-glassmorphism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Glassmorphism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">02 / 20</div>
+        <h2 class="pattern-name">Glass-<br/>morphism</h2>
+        <p class="pattern-tagline">Frosted glass, elevated surfaces, premium restraint. The default aesthetic of modern SaaS.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Fintech dashboards &middot; B2B SaaS &middot; Productivity tools</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium &mdash; backdrop-filter has GPU costs; z-index management is complex</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Mobile performance is critical or content is text-heavy</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">backdrop-filter</span><span class="tag">Medium effort</span><span class="tag">Fintech</span><span class="tag">Premium</span></div>
+      </div>
+    </article>
+
+    <!-- 03 Bento Grid -->
+    <article class="pattern-entry" data-effort="medium" data-tags="saas landing marketing">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096152/ui-aesthetic-atlas/03-bento-grid.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Bento Grid design pattern" style="object-position:center center;object-fit:contain;background:#0a0a0a"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">03 / 20</div>
+        <h2 class="pattern-name">Bento<br/>Grid</h2>
+        <p class="pattern-tagline">Apple's keynote layout system, democratized. Asymmetric cards that make any feature feel flagship.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Landing pages &middot; Feature showcases &middot; Marketing sites</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low&ndash;Medium &mdash; CSS Grid is your entire toolkit</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">You need traditional navigation flows or dense informational content</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">CSS Grid</span><span class="tag">Editorial</span><span class="tag">Landing</span><span class="tag">Marketing</span></div>
+      </div>
+    </article>
+
+    <!-- 04 Neumorphism -->
+    <article class="pattern-entry" data-effort="high" data-tags="creative audio">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096171/ui-aesthetic-atlas/04-neumorphism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Neumorphism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">04 / 20</div>
+        <h2 class="pattern-name">Neu-<br/>morphism</h2>
+        <p class="pattern-tagline">Surfaces extruded from the background itself. Tactile, monochromatic, meditative.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Audio apps &middot; Smart home interfaces &middot; Control panels</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">High &mdash; dual-shadow math is precise; WCAG contrast ratios are brutal</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Accessibility is non-negotiable or you need dark theme support</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">box-shadow</span><span class="tag">High effort</span><span class="tag">Audio</span><span class="tag">Tactile</span></div>
+      </div>
+    </article>
+
+    <!-- 05 Claymorphism -->
+    <article class="pattern-entry" data-effort="medium" data-tags="creative edtech">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096180/ui-aesthetic-atlas/05-claymorphism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Claymorphism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">05 / 20</div>
+        <h2 class="pattern-name">Clay-<br/>morphism</h2>
+        <p class="pattern-tagline">3D-inflated, squishy, impossible not to touch. Playful design that converts.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Ed-tech &middot; Gamified apps &middot; Kids' products &middot; Fitness platforms</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium &mdash; layered box-shadow + subtle 3D transforms</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">B2B, enterprise, or any context needing professional gravity</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">3D transforms</span><span class="tag">Playful</span><span class="tag">Ed-tech</span><span class="tag">Gamified</span></div>
+      </div>
+    </article>
+
+    <!-- 06 Aurora UI -->
+    <article class="pattern-entry" data-effort="medium" data-tags="creative ai music">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096189/ui-aesthetic-atlas/06-aurora-ui.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Aurora UI design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">06 / 20</div>
+        <h2 class="pattern-name">Aurora<br/>UI</h2>
+        <p class="pattern-tagline">Northern lights, bottled in a browser. Fluid color gradients that feel alive.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">AI-native products &middot; Creative tools &middot; Music apps &middot; Portfolios</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium &mdash; CSS gradient animations handle 80%; Three.js for peak</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">You need sharp data visualization or high text readability</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Gradients</span><span class="tag">AI tools</span><span class="tag">Creative</span><span class="tag">Dreamy</span></div>
+      </div>
+    </article>
+
+    <!-- 07 Cyberpunk UI -->
+    <article class="pattern-entry" data-effort="high" data-tags="gaming web3 ai">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096192/ui-aesthetic-atlas/07-cyberpunk-ui.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Cyberpunk UI design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">07 / 20</div>
+        <h2 class="pattern-name">Cyber-<br/>punk UI</h2>
+        <p class="pattern-tagline">Neon on black, data-dense, terminal energy. Built for the machine age.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Web3 platforms &middot; AI tools &middot; Gaming dashboards &middot; Crypto</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium&ndash;High &mdash; custom scanlines, glow effects, monospaced type</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Mass-market consumer apps or anything needing mainstream trust</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Neon</span><span class="tag">Web3</span><span class="tag">Gaming</span><span class="tag">Dark</span></div>
+      </div>
+    </article>
+
+    <!-- 08 Y2K Aesthetic -->
+    <article class="pattern-entry" data-effort="medium" data-tags="creative fashion">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096196/ui-aesthetic-atlas/08-y2k-aesthetic.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Y2K Aesthetic design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">08 / 20</div>
+        <h2 class="pattern-name">Y2K<br/>Aesthetic</h2>
+        <p class="pattern-tagline">Chrome gradients, pixel fonts, and early-internet chaos. Nostalgia weaponized as brand identity.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Fashion brands &middot; Music platforms &middot; Gen-Z consumer apps</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium &mdash; custom type, metallic CSS gradients, retro overlays</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">You need to signal trust, stability, or enterprise credibility</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Nostalgia</span><span class="tag">Fashion</span><span class="tag">Gen-Z</span><span class="tag">Chrome</span></div>
+      </div>
+    </article>
+
+    <!-- 09 Flat Design -->
+    <article class="pattern-entry" data-effort="low" data-tags="saas mobile universal">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096200/ui-aesthetic-atlas/09-flat-design.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Flat Design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">09 / 20</div>
+        <h2 class="pattern-name">Flat<br/>Design</h2>
+        <p class="pattern-tagline">No shadows. No gradients. Just shape, color, and the confidence to leave it there.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Mobile apps &middot; Icon systems &middot; Marketing sites &middot; Universal fit</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low &mdash; the most timeless, accessible, portable pattern on this list</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">You need depth, physical metaphors, or tactile feedback</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Timeless</span><span class="tag">Low effort</span><span class="tag">Mobile</span><span class="tag">Accessible</span></div>
+      </div>
+    </article>
+
+    <!-- 10 Material Design -->
+    <article class="pattern-entry" data-effort="medium" data-tags="saas enterprise">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096204/ui-aesthetic-atlas/10-material-design.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Material Design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">10 / 20</div>
+        <h2 class="pattern-name">Material<br/>Design</h2>
+        <p class="pattern-tagline">Google's physics-grounded system. Elevation as a design language. Structure as a feature.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Android apps &middot; Enterprise SaaS &middot; Google ecosystem products</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium &mdash; best with MUI or Material Web; rolling from scratch is expensive</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Brand distinctiveness matters &mdash; Material reads as Google instantly</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">MUI</span><span class="tag">Android</span><span class="tag">Enterprise</span><span class="tag">Structured</span></div>
+      </div>
+    </article>
+
+    <!-- 11 Skeuomorphism -->
+    <article class="pattern-entry" data-effort="high" data-tags="creative audio luxury">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096207/ui-aesthetic-atlas/11-skeuomorphism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Skeuomorphism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">11 / 20</div>
+        <h2 class="pattern-name">Skeuo-<br/>morphism</h2>
+        <p class="pattern-tagline">The real world, rendered in pixels. Every shadow, texture, and knob earned.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Audio plugins &middot; Creative tools &middot; Luxury lifestyle apps</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">High &mdash; detailed texture work, realistic lighting simulation</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Performance matters or your direction is modern/minimal</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Textures</span><span class="tag">High effort</span><span class="tag">Audio</span><span class="tag">Luxury</span></div>
+      </div>
+    </article>
+
+    <!-- 12 Bauhaus -->
+    <article class="pattern-entry" data-effort="low" data-tags="creative editorial design">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096211/ui-aesthetic-atlas/12-bauhaus.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Bauhaus design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">12 / 20</div>
+        <h2 class="pattern-name">Bau-<br/>haus</h2>
+        <p class="pattern-tagline">Form follows function. Grid. Geometry. Primary colors. Nothing that doesn't earn its place.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Design agencies &middot; Editorial sites &middot; Architecture firms</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low&ndash;Medium &mdash; strict grid systems, geometric shapes, typographic rigor</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">You need warmth, organic curves, or playful visual energy</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Geometric</span><span class="tag">Editorial</span><span class="tag">Grid</span><span class="tag">Intellectual</span></div>
+      </div>
+    </article>
+
+    <!-- 13 Brutalism -->
+    <article class="pattern-entry" data-effort="low" data-tags="creative fashion art">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096214/ui-aesthetic-atlas/13-brutalism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Brutalism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">13 / 20</div>
+        <h2 class="pattern-name">Bru-<br/>talism</h2>
+        <p class="pattern-tagline">Anti-design as a design statement. Raw HTML energy, deliberately unpolished.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Underground culture &middot; Fashion brands &middot; Experimental art</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low &mdash; the &ldquo;intentional mistakes&rdquo; are the craft</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">User trust or accessibility compliance are priorities</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Raw</span><span class="tag">Low effort</span><span class="tag">Subversive</span><span class="tag">Art</span></div>
+      </div>
+    </article>
+
+    <!-- 14 Minimalism -->
+    <article class="pattern-entry" data-effort="low" data-tags="saas creative wellness">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096217/ui-aesthetic-atlas/14-minimalism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Minimalism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">14 / 20</div>
+        <h2 class="pattern-name">Mini-<br/>malism</h2>
+        <p class="pattern-tagline">Restraint is the hardest design skill. This is its highest form.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Writing tools &middot; Luxury brands &middot; Personal blogs &middot; Wellness</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low to implement, extremely high to execute with taste</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Your product has complex features needing visual hierarchy</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Serene</span><span class="tag">Luxury</span><span class="tag">Writing</span><span class="tag">Wellness</span></div>
+      </div>
+    </article>
+
+    <!-- 15 Retro Futurism -->
+    <article class="pattern-entry" data-effort="medium" data-tags="gaming creative">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096221/ui-aesthetic-atlas/15-retro-futurism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Retro Futurism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">15 / 20</div>
+        <h2 class="pattern-name">Retro<br/>Futurism</h2>
+        <p class="pattern-tagline">The future, as imagined in 1975. Scanlines, CRT glow, and undelivered optimism.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Gaming &middot; Sci-fi brands &middot; Music tools &middot; Nostalgia products</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Medium &mdash; scanline overlays, CRT filters, custom retro typefaces</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Mainstream B2B, healthcare, or regulated financial contexts</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">CRT</span><span class="tag">Sci-fi</span><span class="tag">Gaming</span><span class="tag">Cinematic</span></div>
+      </div>
+    </article>
+
+    <!-- 16 Dark Mode -->
+    <article class="pattern-entry" data-effort="low" data-tags="saas tools productivity">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096224/ui-aesthetic-atlas/16-dark-mode.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Dark Mode design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">16 / 20</div>
+        <h2 class="pattern-name">Dark<br/>Mode</h2>
+        <p class="pattern-tagline">High contrast. Eye-optimized. The default language of tools that respect the focused mind.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Dev tools &middot; Code editors &middot; Productivity apps &middot; Technical products</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low&ndash;Medium &mdash; semantic color tokens make this scale cleanly</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Consumer lifestyle or food/beverage &mdash; anything needing warmth</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Dev tools</span><span class="tag">Focused</span><span class="tag">Technical</span><span class="tag">Professional</span></div>
+      </div>
+    </article>
+
+    <!-- 17 Motion Driven -->
+    <article class="pattern-entry" data-effort="high" data-tags="saas creative premium">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096228/ui-aesthetic-atlas/17-motion-driven.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Motion Driven design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">17 / 20</div>
+        <h2 class="pattern-name">Motion<br/>Driven</h2>
+        <p class="pattern-tagline">Animation is not decoration &mdash; it is the interface. Every transition carries meaning.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Premium SaaS &middot; Creative studios &middot; Storytelling microsites</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">High &mdash; requires GSAP, Framer Motion, or Three.js</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Users need to scan, focus, or complete tasks efficiently</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">GSAP</span><span class="tag">High effort</span><span class="tag">Premium</span><span class="tag">Cinematic</span></div>
+      </div>
+    </article>
+
+    <!-- 18 Maximalism -->
+    <article class="pattern-entry" data-effort="high" data-tags="creative fashion art">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096232/ui-aesthetic-atlas/18-maximalism.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Maximalism design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">18 / 20</div>
+        <h2 class="pattern-name">Maxi-<br/>malism</h2>
+        <p class="pattern-tagline">More is more. Layered, dense, visually overwhelming &mdash; on purpose.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Fashion magazines &middot; Art exhibitions &middot; Entertainment platforms</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">High &mdash; visual coherence within chaos is a genuine craft challenge</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Users need to scan, focus, or complete tasks efficiently</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">Abundant</span><span class="tag">High effort</span><span class="tag">Fashion</span><span class="tag">Art</span></div>
+      </div>
+    </article>
+
+    <!-- 19 Organic UI -->
+    <article class="pattern-entry" data-effort="low" data-tags="creative wellness">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096234/ui-aesthetic-atlas/19-organic-ui.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Organic UI design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">19 / 20</div>
+        <h2 class="pattern-name">Organic<br/>UI</h2>
+        <p class="pattern-tagline">Blob shapes, earth tones, and the anti-grid. Design that breathes.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Wellness brands &middot; Sustainability products &middot; Health apps</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">Low&ndash;Medium &mdash; SVG blobs, aggressive border-radius, warm palettes</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">Data-heavy apps or anything requiring rigid structural layout</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">SVG blobs</span><span class="tag">Wellness</span><span class="tag">Natural</span><span class="tag">Calming</span></div>
+      </div>
+    </article>
+
+    <!-- 20 Liquid Glass -->
+    <article class="pattern-entry" data-effort="high" data-tags="saas premium">
+      <div class="pattern-preview">
+        <video src="https://res.cloudinary.com/du0ea6cth/video/upload/v1774096238/ui-aesthetic-atlas/20-liquid-glass.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Liquid Glass design pattern"></video>
+      </div>
+      <div class="pattern-info">
+        <div class="pattern-number">20 / 20</div>
+        <h2 class="pattern-name">Liquid<br/>Glass</h2>
+        <p class="pattern-tagline">Apple Vision Pro aesthetics. Translucent surfaces in constant, morphing motion.</p>
+        <div class="pattern-meta">
+          <div class="meta-row"><span class="meta-icon">&#9654;</span><span class="meta-label">Best for</span><span class="meta-value">Next-gen SaaS &middot; Spatial computing &middot; Premium showcases</span></div>
+          <div class="meta-row"><span class="meta-icon">&#9670;</span><span class="meta-label">Effort</span><span class="meta-value">High &mdash; cutting-edge CSS, WebGL, or Three.js; limited browser parity</span></div>
+          <div class="meta-row"><span class="meta-icon">&#10005;</span><span class="meta-label">Skip if</span><span class="meta-value">You need broad browser support or ship next month</span></div>
+        </div>
+        <div class="pattern-tags"><span class="tag">WebGL</span><span class="tag">High effort</span><span class="tag">Spatial</span><span class="tag">Ethereal</span></div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <span class="divider-symbol">&#10022;</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- MATRIX -->
+  <section class="matrix-section" id="matrix">
+    <div class="section-header reveal">
+      <h2 class="section-title">Vibe &times; Effort</h2>
+      <span class="section-subtitle">Decision matrix &mdash; all 20</span>
+    </div>
+    <table class="matrix-table reveal">
+      <thead>
+        <tr>
+          <th>#</th><th>Pattern</th><th>Vibe</th><th>Best for</th><th>Effort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="matrix-num">01</td><td class="matrix-name">Neubrutalism</td><td class="matrix-vibe">Raw &middot; Confrontational</td><td class="matrix-for">Indie tools, Dev portfolios</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">09</td><td class="matrix-name">Flat Design</td><td class="matrix-vibe">Clean &middot; Timeless</td><td class="matrix-for">Universal, Mobile</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">13</td><td class="matrix-name">Brutalism</td><td class="matrix-vibe">Raw &middot; Subversive</td><td class="matrix-for">Culture, Fashion, Art</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">14</td><td class="matrix-name">Minimalism</td><td class="matrix-vibe">Serene &middot; Disciplined</td><td class="matrix-for">Writing tools, Luxury</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">03</td><td class="matrix-name">Bento Grid</td><td class="matrix-vibe">Editorial &middot; Modern</td><td class="matrix-for">Landing pages</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">12</td><td class="matrix-name">Bauhaus</td><td class="matrix-vibe">Geometric &middot; Intellectual</td><td class="matrix-for">Design agencies</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">16</td><td class="matrix-name">Dark Mode</td><td class="matrix-vibe">Focused &middot; Professional</td><td class="matrix-for">Dev tools, Productivity</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">19</td><td class="matrix-name">Organic UI</td><td class="matrix-vibe">Natural &middot; Calming</td><td class="matrix-for">Wellness, Sustainability</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">02</td><td class="matrix-name">Glassmorphism</td><td class="matrix-vibe">Sleek &middot; Premium</td><td class="matrix-for">Fintech, SaaS</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">05</td><td class="matrix-name">Claymorphism</td><td class="matrix-vibe">Playful &middot; Tactile</td><td class="matrix-for">Ed-tech, Gamified</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">06</td><td class="matrix-name">Aurora UI</td><td class="matrix-vibe">Dreamy &middot; Fluid</td><td class="matrix-for">AI tools, Creative</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">08</td><td class="matrix-name">Y2K Aesthetic</td><td class="matrix-vibe">Chaotic &middot; Nostalgic</td><td class="matrix-for">Fashion, Gen-Z</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">10</td><td class="matrix-name">Material Design</td><td class="matrix-vibe">Structured &middot; Reliable</td><td class="matrix-for">Enterprise, Android</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">15</td><td class="matrix-name">Retro Futurism</td><td class="matrix-vibe">Cinematic &middot; Nostalgic</td><td class="matrix-for">Gaming, Sci-fi</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot"></div></div></td></tr>
+        <tr><td class="matrix-num">07</td><td class="matrix-name">Cyberpunk UI</td><td class="matrix-vibe">Futuristic &middot; Dark</td><td class="matrix-for">Web3, Gaming, AI</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot on"></div></div></td></tr>
+        <tr><td class="matrix-num">04</td><td class="matrix-name">Neumorphism</td><td class="matrix-vibe">Soft &middot; Monochromatic</td><td class="matrix-for">Audio, Control panels</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot on"></div></div></td></tr>
+        <tr><td class="matrix-num">11</td><td class="matrix-name">Skeuomorphism</td><td class="matrix-vibe">Realistic &middot; Tactile</td><td class="matrix-for">Audio plugins, Luxury</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot on"></div></div></td></tr>
+        <tr><td class="matrix-num">17</td><td class="matrix-name">Motion Driven</td><td class="matrix-vibe">Cinematic &middot; Alive</td><td class="matrix-for">Premium SaaS, Studios</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot on"></div></div></td></tr>
+        <tr><td class="matrix-num">18</td><td class="matrix-name">Maximalism</td><td class="matrix-vibe">Abundant &middot; Loud</td><td class="matrix-for">Fashion, Art, Entertainment</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot on"></div></div></td></tr>
+        <tr><td class="matrix-num">20</td><td class="matrix-name">Liquid Glass</td><td class="matrix-vibe">Ethereal &middot; Futuristic</td><td class="matrix-for">Next-gen SaaS, Spatial</td><td><div class="effort-bar"><div class="effort-dot on"></div><div class="effort-dot on"></div><div class="effort-dot on"></div></div></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <div class="footer-title">UI Aesthetic Atlas</div>
+      <div class="footer-sub">Stop scrolling Dribbble. Pick a direction. Ship.</div>
+      <div class="footer-credit">MIT License &middot; Built by Achal Jain &middot; 2025&ndash;2026</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/Achal13jain/ui-design-patterns" target="_blank" rel="noopener noreferrer">GitHub Repository &rarr;</a>
+      <a href="https://github.com/Achal13jain/ui-design-patterns/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute &rarr;</a>
+      <a href="https://achal-jain-portfolio.netlify.app" target="_blank" rel="noopener noreferrer">Portfolio &rarr;</a>
+    </div>
+  </footer>
+
+  </div><!-- /.site-wrap -->
+
+  <script>
+    // -- HERO TEXT CHARACTER REVEAL ----------------------
+    (function() {
+      const heroTitle = document.querySelector('.hero-title');
+      if (!heroTitle) return;
+      const html = heroTitle.innerHTML;
+      let idx = 0;
+      const result = html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+        if (tag) return tag;
+        return text.split('').map(ch => {
+          if (ch === ' ' || ch === '\n') return ch;
+          const d = 0.4 + idx * 0.04;
+          idx++;
+          return '<span class="char-reveal" style="animation-delay:' + d + 's">' + ch + '</span>';
+        }).join('');
+      });
+      heroTitle.innerHTML = result;
+    })();
+
+    // -- COUNTER ANIMATION ------------------------------
+    function animateCounter(el, target, suffix, duration) {
+      const start = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(start);
+    }
+
+    // -- FILTER -----------------------------------------
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const entries = document.querySelectorAll('.pattern-entry');
+    const effortLevels = ['low', 'medium', 'high'];
+    const categoryMap = { saas: ['saas'], creative: ['creative'], gaming: ['gaming', 'web3', 'ai'] };
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        const filter = btn.dataset.filter;
+        entries.forEach(entry => {
+          if (filter === 'all') { entry.classList.remove('hidden'); return; }
+          const effort = entry.dataset.effort;
+          const tags = entry.dataset.tags || '';
+          let show = false;
+          if (effortLevels.includes(filter) && effort === filter) show = true;
+          if (categoryMap[filter]) categoryMap[filter].forEach(cat => { if (tags.includes(cat)) show = true; });
+          entry.classList.toggle('hidden', !show);
+        });
+      });
+    });
+
+    // -- STAGGERED CHILD REVEALS ------------------------
+    document.querySelectorAll('.pattern-entry').forEach(entry => {
+      [entry.querySelector('.pattern-preview'),
+       entry.querySelector('.pattern-number'),
+       entry.querySelector('.pattern-name'),
+       entry.querySelector('.pattern-tagline'),
+       entry.querySelector('.pattern-meta'),
+       entry.querySelector('.pattern-tags')
+      ].filter(Boolean).forEach((child, i) => {
+        child.classList.add('stagger-child');
+        child.style.transitionDelay = i * 0.1 + 's';
+      });
+    });
+
+    // -- INTERSECTION OBSERVER --------------------------
+    const revealObserver = new IntersectionObserver((observed) => {
+      observed.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.pattern-entry, .reveal, .section-divider').forEach(el => revealObserver.observe(el));
+
+    // -- MATRIX TABLE STAGGER ---------------------------
+    const matrixTable = document.querySelector('.matrix-table');
+    if (matrixTable) {
+      matrixTable.querySelectorAll('tbody tr').forEach((row, i) => {
+        row.style.transitionDelay = i * 0.03 + 's';
+      });
+      revealObserver.observe(matrixTable);
+    }
+
+    // -- PARALLAX-LITE ON VIDEOS ------------------------
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const previews = document.querySelectorAll('.pattern-preview');
+      (function loop() {
+        const vh = window.innerHeight;
+        previews.forEach(p => {
+          const r = p.getBoundingClientRect();
+          if (r.bottom < -100 || r.top > vh + 100) return;
+          const offset = ((r.top + r.height / 2 - vh / 2) / vh) * -15;
+          const v = p.querySelector('video');
+          if (v) v.style.transform = 'translateY(' + offset + 'px) scale(1.04)';
+        });
+        requestAnimationFrame(loop);
+      })();
+    })();
+
+    // -- LAZY VIDEO PLAYBACK ----------------------------
+    const videoObserver = new IntersectionObserver((observed) => {
+      observed.forEach(e => {
+        if (e.isIntersecting) {
+          const v = e.target;
+          v.play().catch(() => {});
+          videoObserver.unobserve(v);
+        }
+      });
+    }, { rootMargin: '200px' });
+    document.querySelectorAll('.pattern-preview video').forEach(v => {
+      v.preload = 'none';
+      videoObserver.observe(v);
+    });
+
+    // -- CUSTOM CURSOR ----------------------------------
+    const cursor = document.getElementById('cursor');
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.body.classList.add('custom-cursor');
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+      document.querySelectorAll('a, button, .pattern-entry').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+      });
+    }
+
+    // -- BACK TO TOP ------------------------------------
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 600);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // -- PAGE LOAD SEQUENCE -----------------------------
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      setTimeout(() => {
+        loader.classList.add('done');
+        document.body.classList.add('loaded');
+        // Counter animations after stats become visible
+        setTimeout(() => {
+          const stats = document.querySelectorAll('.stat-num');
+          if (stats[0]) animateCounter(stats[0], 20, '', 1800);
+          if (stats[1]) animateCounter(stats[1], 5, 's', 1200);
+          if (stats[2]) {
+            setTimeout(() => {
+              stats[2].textContent = '0';
+              stats[2].style.display = 'inline-block';
+              stats[2].style.animation = 'accentFlash 0.4s ease';
+            }, 800);
+          }
+        }, 1400);
+      }, 1600);
+    });
+
+    // Clean up will-change after entrance animations
+    setTimeout(() => {
+      document.querySelectorAll('.char-reveal').forEach(el => { el.style.willChange = 'auto'; });
+    }, 4000);
+  </script>
+</body>
+</html>

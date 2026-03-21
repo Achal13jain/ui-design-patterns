@@ -1,0 +1,13 @@
+# Media assets (served via Cloudinary CDN, not committed)
+assets/
+videos/
+
+# Build artifacts
+cloudinary_urls.txt
+cloudinary_video_urls.txt
+upload_videos.py
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
